@@ -36,20 +36,23 @@
     </el-form>
     <div class="verification_class">
       <el-input v-model="authCode" placeholder="验证码区分大小写"></el-input>
-      <div id="v_container" style="width: 200px; height: 50px"></div>
+      <div id="v_container" style="width: 200px; height: 40px"></div>
     </div>
-    <el-button type="primary" style="width: 100%" @click="handleRegister"
+    <el-button
+      type="primary"
+      style="width: 100%; margin-top: 18px"
+      @click="handleRegister"
       >注册</el-button
     >
   </div>
 </template>
 
 <script>
-import { register } from "@/api/user";
-import { isValidPass } from "@/utils/rules";
-import { getTime } from "@/utils/comFunc";
 import { onMounted, reactive, ref } from "vue";
 import { ElMessage } from "element-plus";
+import { isValidPass } from "@/utils/rules";
+import { getTime } from "@/utils/comFunc";
+import { register } from "@/api/user";
 
 export default {
   emits: ["update:register"],
@@ -58,21 +61,20 @@ export default {
     let verifyCode = reactive({});
     const ruleFormRef = ref(null);
     const authCode = ref("");
-
     const ruleForm = reactive({
       reg_name: "",
       verification: "",
       rge_pass: "",
       rge_passAgain: "",
     });
-    const validatePass = (rule, value, callback) => {
+    const validatePass = (_, value, callback) => {
       if (!isValidPass(value)) {
         callback(new Error("请输入8-16位由数字与字母组成的密码"));
       } else {
         callback();
       }
     };
-    const validatePass2 = (rule, value, callback) => {
+    const validatePass2 = (_, value, callback) => {
       if (value === "") {
         callback(new Error("请再次输入密码"));
       } else if (value !== ruleForm.rge_pass) {
@@ -87,9 +89,6 @@ export default {
       rge_passAgain: [{ validator: validatePass2, trigger: "blur" }],
     });
 
-    onMounted(() => {
-      verifyCode = new window.GVerify("v_container");
-    });
     const handleRegister = async () => {
       await ruleFormRef.value.validate((valid) => {
         if (valid) {
@@ -137,6 +136,10 @@ export default {
         }
       });
     };
+
+    onMounted(() => {
+      verifyCode = new window.GVerify("v_container");
+    });
 
     return {
       authCode,

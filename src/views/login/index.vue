@@ -22,13 +22,10 @@
           </div>
         </nav>
         <section v-show="flag">
-          <!-- 登录表单 -->
           <LoginForm ref="loginRef" />
-          <!-- 第三方登录 -->
           <LoginOther />
         </section>
         <section v-show="!flag">
-          <!-- 注册组件 -->
           <LoginRegister @update:register="register" ref="registerRef" />
         </section>
       </article>
@@ -74,6 +71,15 @@ export default {
       }
     };
 
+    const handlerClick = () => {
+      window.open("https://beian.miit.gov.cn");
+    };
+
+    const register = ({ name, pass }) => {
+      flag.value = true;
+      loginRef.value.onRegister(name, pass);
+    };
+
     onMounted(() => {
       document.addEventListener("keydown", keyDown);
     });
@@ -81,16 +87,6 @@ export default {
     onBeforeUnmount(() => {
       document.removeEventListener("keydown", keyDown);
     });
-
-    const handlerClick = () => {
-      window.open("https://beian.miit.gov.cn");
-    };
-
-    const register = (params) => {
-      let { name, pass } = params;
-      flag.value = true;
-      loginRef.value.onRegister(name, pass);
-    };
 
     return { flag, handlerClick, register, registerRef, loginRef };
   },

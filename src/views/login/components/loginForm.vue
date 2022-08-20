@@ -23,11 +23,11 @@
 </template>
 
 <script>
-import { login } from "@/api/user";
 import { reactive, ref, getCurrentInstance } from "vue";
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/store/user";
+import { login } from "@/api/user";
 export default {
   name: "LoginForm",
   setup() {

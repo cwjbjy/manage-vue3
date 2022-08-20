@@ -6,6 +6,7 @@ export const useUserStore = defineStore("user", {
   state: () => {
     return {
       userName: "",
+      imageUrl: "",
     };
   },
   getters: {
@@ -17,6 +18,9 @@ export const useUserStore = defineStore("user", {
   actions: {
     updateUserName(userName) {
       this.userName = userName;
+    },
+    updateImageUrl(url) {
+      this.imageUrl = url;
     },
   },
 });
