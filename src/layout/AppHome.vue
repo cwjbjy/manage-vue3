@@ -17,9 +17,9 @@
           </router-view>
         </article>
       </main>
-      <!-- <footer>
+      <footer>
         <el-backtop target=".app-content" :bottom="100"></el-backtop>
-      </footer> -->
+      </footer>
     </div>
   </div>
 </template>
@@ -72,7 +72,7 @@ export default {
     color: themed("color-font");
     background-color: themed("background-main");
   }
-  header {
+  .layoutHeader {
     @include themify($themes) {
       background-color: themed("background-header");
     }

@@ -1,10 +1,10 @@
 <template>
-  <el-card shadow="hover" style="height: 406px">
+  <el-card shadow="hover" style="height: 406px; width: 100%">
     <template #header>
       <span>待办事项</span>
       <el-button
-        style="float: right; padding: 3px 0"
-        type="text"
+        style="float: right; padding: 3px 0; color: rgb(45 140 240)"
+        text
         @click="openDialog('add')"
         >添加</el-button
       >
@@ -28,24 +28,24 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column width="35">
+      <el-table-column width="40">
         <template #default="scope">
-          <i
-            class="el-icon-edit c_pointer"
-            @click="openDialog('edit', scope.row, scope.$index)"
-          ></i>
+          <el-icon
+            ><EditPen
+              class="c_pointer"
+              @click="openDialog('edit', scope.row, scope.$index)"
+          /></el-icon>
         </template>
       </el-table-column>
-      <el-table-column width="35">
+      <el-table-column width="40">
         <template #default="scope">
-          <i
-            class="el-icon-delete c_pointer"
-            @click="deleteRow(scope.$index)"
-          ></i>
+          <el-icon class="c_pointer" @click="deleteRow(scope.$index)"
+            ><Delete
+          /></el-icon>
         </template>
       </el-table-column>
     </el-table>
-    <el-dialog :title="dialogTitle" :visible="dialogFormVisible" center>
+    <el-dialog :title="dialogTitle" v-model="dialogFormVisible" center>
       <el-input v-model="schedule" placeholder="请输入内容"></el-input>
       <template #footer>
         <div class="dialog-footer">
@@ -58,86 +58,104 @@
 </template>
 
 <script>
-import { vuexApp } from "@/mixin";
+import { nextTick, ref } from "vue";
+import { storeToRefs } from "pinia";
+import { ElMessage, ElMessageBox } from "element-plus";
+import { useTodoList } from "@/store/todoList";
 export default {
   name: "ScheduleHome",
-  data() {
-    return {
-      dialogFormVisible: false,
-      dialogTitle: "",
-      schedule: "",
-      status: 0, //0增加，1编辑
-      itemIndex: 0,
-    };
-  },
-  mixins: [vuexApp],
-  created() {
-    //解决IE浏览器渲染过慢，表格宽度计算错误
-    this.$nextTick(() => {
-      this.$refs.table.doLayout();
-    });
-  },
-  methods: {
-    openDialog(val, row, index) {
-      this.itemIndex = index;
-      this.status = val;
-      this.dialogFormVisible = true;
-      switch (this.status) {
-        case "add":
-          this.schedule = "";
-          this.dialogTitle = "增加事项";
-          return;
-        case "edit":
-          this.dialogTitle = "编辑事项";
-          this.schedule = row.title;
-          return;
-        default:
-          return;
-      }
-    },
-    closeDialog() {
-      switch (this.status) {
-        case "add":
-          this.SET_TODO({ type: "add", data: this.schedule });
-          this.$message.success("增加成功");
-          this.dialogFormVisible = false;
-          return;
-        case "edit":
-          this.SET_TODO({
-            type: "edit",
-            index: this.itemIndex,
-            data: this.schedule,
-          });
-          this.$message.success("编辑成功");
-          this.dialogFormVisible = false;
-          return;
-        default:
-          return;
-      }
-    },
-    deleteRow(index) {
-      this.$confirm("此操作将永久删除该事项, 是否继续?", "提示", {
+  setup() {
+    const todoListStore = useTodoList();
+    const { todoList } = storeToRefs(todoListStore);
+    const { updateTodo } = todoListStore;
+    const table = ref(null);
+    const dialogFormVisible = ref(false);
+    const dialogTitle = ref("");
+    const schedule = ref("");
+    const status = ref(""); //0增加，1编辑
+    const itemIndex = ref(0);
+    const deleteRow = (index) => {
+      ElMessageBox.confirm("此操作将永久删除该事项, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       })
         .then(() => {
-          this.SET_TODO({
+          updateTodo({
             type: "delete",
             index,
           });
-          this.$message({
+          ElMessage({
             type: "success",
             message: "删除成功!",
           });
         })
         .catch(() => {
-          this.$message({
+          ElMessage({
             type: "info",
             message: "已取消删除",
           });
         });
-    },
+    };
+    const openDialog = (val, row, index) => {
+      itemIndex.value = index;
+      status.value = val;
+      dialogFormVisible.value = true;
+      switch (status.value) {
+        case "add":
+          schedule.value = "";
+          dialogTitle.value = "增加事项";
+          return;
+        case "edit":
+          dialogTitle.value = "编辑事项";
+          schedule.value = row.title;
+          return;
+        default:
+          return;
+      }
+    };
+    const closeDialog = () => {
+      switch (status.value) {
+        case "add":
+          updateTodo({ type: "add", data: schedule.value });
+          ElMessage({
+            type: "success",
+            message: "增加成功",
+          });
+          dialogFormVisible.value = false;
+          return;
+        case "edit":
+          updateTodo({
+            type: "edit",
+            index: itemIndex.value,
+            data: schedule.value,
+          });
+          ElMessage({
+            type: "success",
+            message: "编辑成功",
+          });
+          dialogFormVisible.value = false;
+          return;
+        default:
+          return;
+      }
+    };
+    nextTick(() => {
+      //解决IE浏览器渲染过慢，表格宽度计算错误
+      table.value.doLayout();
+    });
+    return {
+      todoList,
+      table,
+      deleteRow,
+      openDialog,
+      dialogFormVisible,
+      dialogTitle,
+      schedule,
+      status,
+      itemIndex,
+      closeDialog,
+    };
   },
 };
 </script>

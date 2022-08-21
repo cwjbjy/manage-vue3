@@ -2,25 +2,25 @@
   <section class="firstItem">
     <el-row>
       <el-col :span="8" :lg="8" :xl="6">
-        <userInfo />
-        <language />
+        <UserInfo />
+        <Language />
       </el-col>
       <el-col :span="16" :lg="16" :xl="18">
-        <icon-area />
+        <IconArea />
         <el-row style="padding: 0 10px; margin-bottom: 20px">
-          <!-- <schedule /> -->
+          <Schedule />
         </el-row>
       </el-col>
     </el-row>
     <el-row style="margin-bottom: 20px">
       <el-col :span="12" class="echarts-box">
         <el-card shadow="hover">
-          <!-- <bar-line-model></bar-line-model> -->
+          <BarLineModel />
         </el-card>
       </el-col>
       <el-col :span="12" class="echarts-box">
         <el-card shadow="hover">
-          <!-- <radar-model></radar-model> -->
+          <RadarModel />
         </el-card>
       </el-col>
     </el-row>
@@ -28,22 +28,22 @@
 </template>
 
 <script>
-import userInfo from "./components/userInfo";
-import language from "./components/language";
-import iconArea from "./components/iconArea";
-// import Schedule from "./components/schedule";
-// import BarLineModel from "@/components/echartsModel/barLineModel";
-// import RadarModel from "@/components/echartsModel/radarModel";
+import UserInfo from "./components/userInfo";
+import Language from "./components/language";
+import IconArea from "./components/iconArea";
+import Schedule from "./components/schedule";
+import BarLineModel from "@/components/echartsModel/barLineModel";
+import RadarModel from "@/components/echartsModel/radarModel";
 
 export default {
   name: "HomePage",
   components: {
-    userInfo,
-    language,
-    iconArea,
-    // BarLineModel,
-    // RadarModel,
-    // Schedule,
+    UserInfo,
+    Language,
+    IconArea,
+    BarLineModel,
+    RadarModel,
+    Schedule,
   },
 };
 </script>

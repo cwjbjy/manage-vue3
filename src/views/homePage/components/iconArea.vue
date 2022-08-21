@@ -3,7 +3,7 @@
     <el-col :span="8" class="icon-box">
       <el-card shadow="hover" :body-style="{ padding: '0px' }">
         <div class="icon-content">
-          <i class="el-icon-s-custom grid-con-icon grid-con-1"></i>
+          <el-icon class="grid-con-icon grid-con-1"><User /></el-icon>
           <div class="icon-info">
             <div class="grid-num number1">1234</div>
             <div>用户访问量</div>
@@ -14,7 +14,7 @@
     <el-col :span="8" class="icon-box">
       <el-card shadow="hover" :body-style="{ padding: '0px' }">
         <div class="icon-content">
-          <i class="el-icon-message-solid grid-con-icon grid-con-2"></i>
+          <el-icon class="grid-con-icon grid-con-2"><Bell /></el-icon>
           <div class="icon-info">
             <div class="grid-num number1">234</div>
             <div>系统消息</div>
@@ -25,7 +25,7 @@
     <el-col :span="8" class="icon-box">
       <el-card shadow="hover" :body-style="{ padding: '0px' }">
         <div class="icon-content">
-          <i class="el-icon-s-order grid-con-icon grid-con-3"></i>
+          <el-icon class="grid-con-icon grid-con-3"><MessageBox /></el-icon>
           <div class="icon-info">
             <div class="grid-num number3">20</div>
             <div>数量</div>
@@ -35,6 +35,12 @@
     </el-col>
   </el-row>
 </template>
+
+<script>
+export default {
+  name: "IconArea",
+};
+</script>
 
 <style scoped lang="scss">
 .icon-area {

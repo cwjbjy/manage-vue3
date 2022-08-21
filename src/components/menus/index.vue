@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import { storeToRefs } from "pinia";
+import { useThemeStore } from "@/store/themeColor";
 import { bus, menus, echartColor } from "@/constants";
 import menusItem from "./menusItem";
 
@@ -38,6 +40,11 @@ export default {
     theme(newVal) {
       this.bgColor = echartColor[newVal].menuBg;
     },
+  },
+  setup() {
+    const themeStore = useThemeStore();
+    const { theme } = storeToRefs(themeStore);
+    return { theme };
   },
   created() {
     let authMenus = this.$cookies.get("authMenus").split(",");

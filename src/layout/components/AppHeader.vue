@@ -1,5 +1,5 @@
 <template>
-  <header class="header">
+  <div class="header layoutHeader">
     <div class="header_left">
       <span style="margin-left: 10px">PC端后台管理系统(Vue版)</span>
     </div>
@@ -45,7 +45,7 @@
         </template>
       </el-dropdown>
     </div>
-  </header>
+  </div>
 </template>
 <script>
 import { computed, onBeforeUnmount, onMounted } from "vue";
@@ -60,6 +60,7 @@ export default {
   setup(_, { emit }) {
     const userStore = useUserStore();
     const themeStore = useThemeStore();
+    const { updateEchartColor, updateFleetBg, updateTheme } = themeStore;
     const router = useRouter();
     let user_name = userStore.user_name;
     let imageUrl = computed(() => userStore.imageUrl);
@@ -82,9 +83,9 @@ export default {
     };
     const switchColor = (command) => {
       emit("theme", command);
-      themeStore.updateEchartColor(echartColor[command].font);
-      themeStore.updateFleetBg(echartColor[command].fleetBg);
-      themeStore.updateTheme(command);
+      updateEchartColor(echartColor[command].font);
+      updateFleetBg(echartColor[command].fleetBg);
+      updateTheme(command);
     };
 
     getPortrait();

@@ -8,7 +8,7 @@
           </i>
 
           <div class="icon-info">
-            <div class="grid-num number1">1234</div>
+            <div class="grid-num number1">123</div>
             <div>用户访问量</div>
           </div>
         </div>

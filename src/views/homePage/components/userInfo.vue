@@ -28,6 +28,7 @@ import { useUserStore } from "@/store/user";
 import { getUser } from "@/api/user";
 
 export default {
+  name: "UserInfo",
   setup() {
     const userStore = useUserStore();
     const { imageUrl, user_name } = storeToRefs(userStore);
