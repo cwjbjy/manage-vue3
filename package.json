@@ -7,6 +7,19 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "echo \"git commit trigger husky pre-commit hook\" ",
+      "commit-msg": "node ./commit.js"
+    }
+  },
+  "lint-staged": {
+    "*.{js,vue}": [
+      "prettier --write",
+      "vue-cli-service lint",
+      "git add"
+    ]
+  },
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.9",
     "axios": "^0.27.2",
@@ -30,6 +43,8 @@
     "@vue/cli-service": "~5.0.0",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
+    "husky": "4.3.8",
+    "lint-staged": "10.5.4",
     "sass": "^1.32.7",
     "sass-loader": "^12.0.0",
     "sass-resources-loader": "^2.2.5"
