@@ -1,7 +1,7 @@
 <template>
   <div :class="themeClass">
     <div class="app-container">
-      <app-header @theme="colorChange"></app-header>
+      <AppHeader @theme="colorChange" />
       <main class="app-main">
         <aside>
           <MenusLayout />
@@ -25,9 +25,11 @@
 </template>
 
 <script>
+import { computed, reactive, toRefs } from "vue";
 import AppHeader from "./components/AppHeader";
 // import AppTags from "./components/AppTags";
 import MenusLayout from "@/components/menus";
+
 export default {
   name: "AppHome",
   components: {
@@ -35,33 +37,26 @@ export default {
     // AppTags,
     MenusLayout,
   },
-  data() {
-    return {
+  setup() {
+    const state = reactive({
       msg: "Dynamic Themes",
       theme: "gray",
       keepList: [],
       exList: ["HomePage", "fleetLine", "BaseEcharts"],
-    };
-  },
-  metaInfo: {
-    title: "文杰的仓库",
-    // meta: [{ charset: 'utf-8' }],
-  },
-  computed: {
-    themeClass() {
-      return `theme-${this.theme}`;
-    },
-  },
-  methods: {
-    colorChange(val) {
-      this.theme = val;
-    },
-    tagChange(val) {
-      this.keepList = [];
-      val.forEach((element) => {
-        this.keepList.push(element.name);
-      });
-    },
+    });
+    const themeClass = computed(() => `theme-${state.theme}`);
+    const methods = reactive({
+      colorChange(val) {
+        state.theme = val;
+      },
+      tagChange(val) {
+        state.keepList = [];
+        val.forEach((element) => {
+          state.keepList.push(element.name);
+        });
+      },
+    });
+    return { themeClass, ...toRefs(state), ...toRefs(methods) };
   },
 };
 </script>

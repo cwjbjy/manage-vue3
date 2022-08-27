@@ -33,7 +33,7 @@
     <footer class="footer">
       个人小样项目，用于展示自己的技术栈
       <br />
-      <span @click="handlerClick" style="cursor: pointer"
+      <span @click="thirdParty" style="cursor: pointer"
         >苏ICP备20022574号-2</span
       >
     </footer>
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { onBeforeUnmount, onMounted, ref } from "vue";
+import { onBeforeUnmount, onMounted, ref, reactive, toRefs } from "vue";
 import LoginForm from "./components/loginForm";
 import LoginOther from "./components/loginOther";
 import LoginRegister from "./components/loginRegister";
@@ -58,8 +58,6 @@ export default {
     const registerRef = ref(null);
     const loginRef = ref(null);
 
-    localStorage.removeItem("user_name");
-
     const keyDown = () => {
       let key = window.event.keyCode;
       if (key === 13) {
@@ -71,14 +69,16 @@ export default {
       }
     };
 
-    const handlerClick = () => {
-      window.open("https://beian.miit.gov.cn");
-    };
+    const methods = reactive({
+      thirdParty: () => {
+        window.open("https://beian.miit.gov.cn");
+      },
 
-    const register = ({ name, pass }) => {
-      flag.value = true;
-      loginRef.value.onRegister(name, pass);
-    };
+      register: ({ name, pass }) => {
+        flag.value = true;
+        loginRef.value.onRegister(name, pass);
+      },
+    });
 
     onMounted(() => {
       document.addEventListener("keydown", keyDown);
@@ -88,7 +88,9 @@ export default {
       document.removeEventListener("keydown", keyDown);
     });
 
-    return { flag, handlerClick, register, registerRef, loginRef };
+    localStorage.removeItem("user_name");
+
+    return { flag, registerRef, loginRef, ...toRefs(methods) };
   },
 };
 </script>

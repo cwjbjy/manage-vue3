@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { onMounted, reactive, ref } from "vue";
+import { onMounted, reactive, ref, toRefs } from "vue";
 import { ElMessage } from "element-plus";
 import { isValidPass } from "@/utils/rules";
 import { getTime } from "@/utils/comFunc";
@@ -58,15 +58,19 @@ export default {
   emits: ["update:register"],
   // eslint-disable-next-line no-unused-vars
   setup(_, { emit }) {
-    let verifyCode = reactive({});
+    let verifyCode = null;
+    let moreClick = false;
     const ruleFormRef = ref(null);
-    const authCode = ref("");
-    const ruleForm = reactive({
-      reg_name: "",
-      verification: "",
-      rge_pass: "",
-      rge_passAgain: "",
+    const state = reactive({
+      authCode: "",
+      ruleForm: {
+        reg_name: "",
+        verification: "",
+        rge_pass: "",
+        rge_passAgain: "",
+      },
     });
+
     const validatePass = (_, value, callback) => {
       if (!isValidPass(value)) {
         callback(new Error("请输入8-16位由数字与字母组成的密码"));
@@ -74,15 +78,17 @@ export default {
         callback();
       }
     };
+
     const validatePass2 = (_, value, callback) => {
       if (value === "") {
         callback(new Error("请再次输入密码"));
-      } else if (value !== ruleForm.rge_pass) {
+      } else if (value !== state.ruleForm.rge_pass) {
         callback(new Error("两次输入密码不一致!"));
       } else {
         callback();
       }
     };
+
     const rules = reactive({
       reg_name: [{ required: true, message: "请输入用户名", trigger: "blur" }],
       rge_pass: [{ validator: validatePass, trigger: "blur" }],
@@ -92,11 +98,13 @@ export default {
     const handleRegister = async () => {
       await ruleFormRef.value.validate((valid) => {
         if (valid) {
-          var res = verifyCode.validate(authCode.value);
+          if (moreClick) return;
+          moreClick = true;
+          const res = verifyCode.validate(state.authCode);
           if (res) {
-            let params = {
-              userName: ruleForm.reg_name,
-              passWord: ruleForm.rge_pass,
+            const params = {
+              userName: state.ruleForm.reg_name,
+              passWord: state.ruleForm.rge_pass,
               authority: 2,
               createTime: getTime(),
               photo: "userlogo.png",
@@ -110,8 +118,8 @@ export default {
 
                 emit("update:register", {
                   flag: true,
-                  name: ruleForm.reg_name,
-                  pass: ruleForm.rge_pass,
+                  name: state.ruleForm.reg_name,
+                  pass: state.ruleForm.rge_pass,
                 });
               })
               .catch((err) => {
@@ -142,11 +150,10 @@ export default {
     });
 
     return {
-      authCode,
-      ruleForm,
       rules,
-      handleRegister,
       ruleFormRef,
+      handleRegister,
+      ...toRefs(state),
     };
   },
 };

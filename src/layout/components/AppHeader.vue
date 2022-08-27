@@ -78,7 +78,6 @@ export default {
     const handleCommand = (command) => {
       if (command == "loginout") {
         router.push("/login");
-        location.reload();
       }
     };
     const switchColor = (command) => {
