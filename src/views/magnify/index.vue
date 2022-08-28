@@ -13,18 +13,13 @@
 </template>
 
 <script>
+import { onMounted, ref } from 'vue';
 export default {
   name: 'MagnifyPage',
-  data() {
-    return {
-      src: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
-    };
-  },
-  mounted() {
-    this.init();
-  },
-  methods: {
-    init() {
+  setup() {
+    const src = ref('https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg');
+
+    const init = () => {
       var span = document.createElement('span');
       var box = document.getElementById('small_Box');
       var img = document.createElement('img');
@@ -39,7 +34,7 @@ export default {
       span.style.backgroundColor = 'rgba(255, 255, 255, 0.5)';
       span.style.cursor = 'pointer';
       box.appendChild(span);
-      img.setAttribute('src', this.src);
+      img.setAttribute('src', src.value);
       img.setAttribute('alt', '加载失败');
       img.style.width = scale * boxWidth + 'px';
       img.style.height = scale * boxHeight + 'px';
@@ -71,7 +66,13 @@ export default {
       box.onmouseout = function () {
         span.style.display = 'none';
       };
-    },
+    };
+
+    onMounted(() => {
+      init();
+    });
+
+    return { src };
   },
 };
 </script>
