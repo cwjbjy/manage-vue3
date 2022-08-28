@@ -14,15 +14,20 @@ export default {
   },
   data() {
     return {
-      lineData: {},
-      tableData: [],
       geoData: {},
     };
+  },
+  watch: {
+    geoData: {
+      handler(val) {
+        console.log('qq', val);
+      },
+      immediate: true,
+    },
   },
   created() {
     getAirData().then((res) => {
       this.geoData = res.data;
-      this.tableData = res.data.apiData;
     });
   },
 };

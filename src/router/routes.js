@@ -17,8 +17,7 @@ const FleetLine = () => import(/* webpackChunkName: "FleetLine" */ '@/views/flee
 // const Magnifying = () =>
 //   import(/* webpackChunkName: "Magnifying" */ "@/views/magnify/index.vue");
 
-// const FileUp = () =>
-//   import(/* webpackChunkName: "FileUp" */ "@/views/fileUpload/index.vue");
+const FileUp = () => import(/* webpackChunkName: "FileUp" */ '@/views/fileUpload/index.vue');
 
 // const PDFPreview = () =>
 //   import(/* webpackChunkName: "PDFPreview" */ "@/views/pdfPreview/index.vue");
@@ -65,13 +64,13 @@ const routes = [
         },
         component: FleetLine,
       },
-      //   {
-      //     path: '/fileUp',
-      //     meta: {
-      //       title: '图片上传',
-      //     },
-      //     component: FileUp,
-      //   },
+      {
+        path: '/fileUp',
+        meta: {
+          title: '图片上传',
+        },
+        component: FileUp,
+      },
       //   {
       //     path: '/pdf',
       //     meta: {

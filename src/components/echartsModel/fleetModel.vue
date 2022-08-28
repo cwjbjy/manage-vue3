@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { onBeforeUnmount, ref } from 'vue';
+import { onBeforeUnmount, ref, toRefs, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useThemeStore } from '@/store/themeColor';
 
@@ -16,18 +16,11 @@ export default {
       default: () => {},
     },
   },
-  watch: {
-    model(newData) {
-      this.prepareDomain(newData);
-    },
-    echartColor() {
-      this.prepareDomain(this.model);
-    },
-  },
-  setup() {
+  setup(props) {
     const themeStore = useThemeStore();
     const { echartColor, fleetBg } = storeToRefs(themeStore);
     const echartRef = ref(null);
+    const { model } = toRefs(props);
     const buildLines = (data, geoCoordMap) => {
       if (!data) return [];
       var planePath =
@@ -220,6 +213,14 @@ export default {
         echartsInstance.resize();
       };
     };
+
+    watch(model, (newData) => {
+      prepareDomain(newData);
+    });
+
+    watch(echartColor, () => {
+      prepareDomain(model.value);
+    });
 
     onBeforeUnmount(() => {
       //销毁实例，释放内存
