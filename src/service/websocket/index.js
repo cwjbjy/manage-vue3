@@ -1,5 +1,5 @@
 import WebsocketClass from './ws_v2';
-import { Message } from 'element-ui';
+import { ElMessage } from 'element-plus';
 let WSInstance = null;
 
 /**
@@ -12,10 +12,16 @@ export default {
     WSInstance.connect(params)
       .then(() => {
         console.log('connect success');
-        Message.success('连接成功');
+        ElMessage({
+          message: '连接成功',
+          type: 'success',
+        });
       })
       .catch(() => {
-        Message.error('网络错误，请稍后重试');
+        ElMessage({
+          message: '网络错误，请稍后重试',
+          type: 'error',
+        });
       });
   },
   sendMessage(params) {
@@ -23,7 +29,10 @@ export default {
   },
   close(params) {
     WSInstance.close(params).then(() => {
-      Message.success('关闭成功');
+      ElMessage({
+        message: '关闭成功',
+        type: 'success',
+      });
     });
   },
 };

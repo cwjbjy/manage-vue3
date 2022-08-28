@@ -5,30 +5,24 @@
 </template>
 
 <script>
+import { reactive, toRefs } from 'vue';
 import FleetModel from '@/components/echartsModel/fleetModel';
 import { getAirData } from '@/api/local';
+
 export default {
   name: 'fleetLine',
   components: {
     FleetModel,
   },
-  data() {
-    return {
+  setup() {
+    const state = reactive({
       geoData: {},
-    };
-  },
-  watch: {
-    geoData: {
-      handler(val) {
-        console.log('qq', val);
-      },
-      immediate: true,
-    },
-  },
-  created() {
-    getAirData().then((res) => {
-      this.geoData = res.data;
     });
+
+    getAirData().then((res) => {
+      state.geoData = res.data;
+    });
+    return { ...toRefs(state) };
   },
 };
 </script>

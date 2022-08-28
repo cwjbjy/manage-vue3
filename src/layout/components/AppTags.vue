@@ -7,9 +7,7 @@
         :class="{ active: isActive(item.path) }"
         :key="index"
       >
-        <span class="tags-li-title" @click="routerClick(item.path)">{{
-          item.title
-        }}</span>
+        <span class="tags-li-title" @click="routerClick(item.path)">{{ item.title }}</span>
         <span class="tags-li-icon" @click="closeTags(index)">
           <i class="el-icon-close"></i>
         </span>
@@ -17,7 +15,7 @@
     </ul>
     <div class="tags-close-box">
       <el-dropdown @command="handleTags">
-        <el-button size="mini" type="primary">
+        <el-button size="small" type="primary">
           标签选项
           <i class="el-icon-arrow-down el-icon--right"></i>
         </el-button>
@@ -33,73 +31,82 @@
 </template>
 
 <script>
-import { bus } from "@/constants";
+import { reactive, toRefs, computed, watch } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import { bus } from '@/constants';
+
 export default {
-  name: "AppTags",
-  data() {
-    return {
+  name: 'AppTags',
+  emits: ['update:change'],
+  setup(_, { emit }) {
+    const router = useRouter();
+    const route = useRoute();
+    const state = reactive({
       tagsList: [],
-    };
-  },
-  computed: {
-    showTags() {
-      return this.tagsList.length > 0;
-    },
-  },
-  watch: {
-    $route(newValue) {
-      this.setTags(newValue);
-    },
-  },
-  created() {
-    this.setTags(this.$route);
-  },
-  methods: {
-    isActive(path) {
-      return Object.is(path, this.$route.fullPath);
-    },
-    // 关闭单个标签
-    closeTags(index) {
-      this.tagsList.splice(index, 1);
-      this.$emit("update:change", this.tagsList);
-    },
+    });
+    const showTags = computed(() => state.tagsList.length > 0);
     // 关闭全部标签
-    closeAll() {
-      this.tagsList = [];
-      this.$emit("update:change", this.tagsList);
-    },
+    const closeAll = () => {
+      state.tagsList = [];
+      emit('update:change', state.tagsList);
+    };
+
     // 关闭其他标签
-    closeOther() {
-      const curItem = this.tagsList.filter((item) => {
-        return item.path === this.$route.fullPath;
+    const closeOther = () => {
+      const curItem = state.tagsList.filter((item) => {
+        return item.path === route.fullPath;
       });
-      this.tagsList = curItem;
-      this.$emit("update:change", this.tagsList);
-    },
+      state.tagsList = curItem;
+      emit('update:change', state.tagsList);
+    };
+
     // 设置标签
-    setTags(route) {
-      const isExist = this.tagsList.some((item) => {
+    const setTags = (route) => {
+      const isExist = state.tagsList.some((item) => {
         return item.path === route.fullPath;
       });
       if (!isExist) {
-        if (this.tagsList.length >= 8) {
-          this.tagsList.shift();
+        if (state.tagsList.length >= 8) {
+          state.tagsList.shift();
         }
-        this.tagsList.push({
+        state.tagsList.push({
           title: route.meta.title,
           path: route.fullPath,
           name: route.matched[1].components.default.name,
         });
-        this.$emit("update:change", this.tagsList);
+        emit('update:change', state.tagsList);
       }
-    },
-    handleTags(command) {
-      command === "other" ? this.closeOther() : this.closeAll();
-    },
-    routerClick(value) {
-      this.$router.push(value);
-      window.eventBus.$emit(bus.updateRouter, value);
-    },
+    };
+
+    const methods = reactive({
+      isActive(path) {
+        return Object.is(path, route.fullPath);
+      },
+      // 关闭单个标签
+      closeTags(index) {
+        state.tagsList.splice(index, 1);
+        emit('update:change', state.tagsList);
+      },
+      handleTags(command) {
+        command === 'other' ? closeOther() : closeAll();
+      },
+      routerClick(value) {
+        router.push(value);
+        window.eventBus.$emit(bus.updateRouter, value);
+      },
+    });
+
+    watch(
+      route,
+      (newValue) => {
+        setTags(newValue);
+      },
+      {
+        immediate: true,
+      },
+    );
+
+    return { showTags, ...toRefs(state), ...toRefs(methods) };
   },
 };
 </script>
@@ -113,7 +120,7 @@ export default {
     height: 30px;
   }
   @include themify($themes) {
-    background-color: themed("card-background");
+    background-color: themed('card-background');
   }
   &-li {
     display: inline-flex;
@@ -124,19 +131,19 @@ export default {
     line-height: 23px;
     padding: 0 12px;
     @include themify($themes) {
-      border: 1px solid themed("card-border");
-      color: themed("card-font");
+      border: 1px solid themed('card-border');
+      color: themed('card-font');
     }
   }
   &-li.active {
     @include themify($themes) {
-      background: themed("card-background-active");
-      border: 1px solid themed("card-border-active");
-      color: themed("color-font");
+      background: themed('card-background-active');
+      border: 1px solid themed('card-border-active');
+      color: themed('color-font');
     }
     .tags-li-title {
       @include themify($themes) {
-        color: themed("color-font");
+        color: themed('color-font');
       }
     }
   }
@@ -147,7 +154,7 @@ export default {
     text-overflow: ellipsis;
     margin-right: 5px;
     @include themify($themes) {
-      color: themed("card-font");
+      color: themed('card-font');
     }
   }
   &-close-box {
