@@ -22,8 +22,7 @@ const FileUp = () => import(/* webpackChunkName: "FileUp" */ '@/views/fileUpload
 
 const PDFPreview = () => import(/* webpackChunkName: "PDFPreview" */ '@/views/pdfPreview/index.vue');
 
-// const I18n = () =>
-//   import(/* webpackChunkName: "I18n" */ "@/views/I18n/index.vue");
+const I18n = () => import(/* webpackChunkName: "I18n" */ '@/views/I18n/index.vue');
 
 // const ChatRoom = () =>
 //   import(
@@ -92,13 +91,13 @@ const routes = [
       //   },
       //   component: BaseTable,
       // },
-      //   {
-      //     path: '/I18n',
-      //     meta: {
-      //       title: '语言转换',
-      //     },
-      //     component: I18n,
-      //   },
+      {
+        path: '/I18n',
+        meta: {
+          title: '语言转换',
+        },
+        component: I18n,
+      },
       //   {
       //     path: '/magnifying',
       //     meta: {
