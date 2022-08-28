@@ -9,15 +9,9 @@
         <span class="iconfont icon-zhuti_tiaosepan_o"></span>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item command="gray" :class="active('gray')"
-              >简约灰</el-dropdown-item
-            >
-            <el-dropdown-item command="blue" :class="active('blue')"
-              >胖次蓝</el-dropdown-item
-            >
-            <el-dropdown-item command="black" :class="active('black')"
-              >夜间模式</el-dropdown-item
-            >
+            <el-dropdown-item command="gray" :class="active('gray')">简约灰</el-dropdown-item>
+            <el-dropdown-item command="blue" :class="active('blue')">胖次蓝</el-dropdown-item>
+            <el-dropdown-item command="black" :class="active('black')">夜间模式</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -32,15 +26,10 @@
         </div>
         <template #dropdown>
           <el-dropdown-menu>
-            <a
-              href="https://github.com/cwjbjy/management-system-vue"
-              target="_blank"
-            >
+            <a href="https://github.com/cwjbjy/management-system-vue" target="_blank">
               <el-dropdown-item>项目仓库</el-dropdown-item>
             </a>
-            <el-dropdown-item divided command="loginout"
-              >退出登录</el-dropdown-item
-            >
+            <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -48,15 +37,15 @@
   </div>
 </template>
 <script>
-import { computed, onBeforeUnmount, onMounted } from "vue";
-import { useRouter } from "vue-router";
-import { useUserStore } from "@/store/user";
-import { useThemeStore } from "@/store/themeColor";
-import { echartColor, bus, baseURL } from "@/constants";
-import { getImage } from "@/api/user";
+import { computed, onBeforeUnmount, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { useUserStore } from '@/store/user';
+import { useThemeStore } from '@/store/themeColor';
+import { echartColor, bus, baseURL } from '@/constants';
+import { getImage } from '@/api/user';
 export default {
-  name: "AppHeader",
-  emits: ["theme"],
+  name: 'AppHeader',
+  emits: ['theme'],
   setup(_, { emit }) {
     const userStore = useUserStore();
     const themeStore = useThemeStore();
@@ -64,8 +53,7 @@ export default {
     const router = useRouter();
     let user_name = userStore.user_name;
     let imageUrl = computed(() => userStore.imageUrl);
-    const active = (color) =>
-      themeStore.theme === color ? "dropdownActive" : "";
+    const active = (color) => (themeStore.theme === color ? 'dropdownActive' : '');
     const getPortrait = () => {
       getImage({
         user_name,
@@ -76,12 +64,14 @@ export default {
     };
 
     const handleCommand = (command) => {
-      if (command == "loginout") {
-        router.push("/login");
+      if (command == 'loginout') {
+        router.push('/login');
+        //清除动态路由缓存
+        location.reload();
       }
     };
     const switchColor = (command) => {
-      emit("theme", command);
+      emit('theme', command);
       updateEchartColor(echartColor[command].font);
       updateFleetBg(echartColor[command].fleetBg);
       updateTheme(command);
@@ -141,7 +131,7 @@ export default {
 .iconfont {
   font-size: 30px;
   @include themify($themes) {
-    color: themed("icon-font");
+    color: themed('icon-font');
   }
 }
 .el-dropdown-menu__item:focus,

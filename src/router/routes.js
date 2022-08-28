@@ -40,6 +40,7 @@ const routes = [
   {
     path: '/home',
     component: AppHome,
+    name: 'Home',
     redirect: '/firstItem',
     children: [
       ...chartRouter,
@@ -107,13 +108,6 @@ const routes = [
         },
         component: ChatRoom,
       },
-      {
-        path: '/manage',
-        meta: {
-          title: '后台管理',
-        },
-        component: UserManage,
-      },
     ],
   },
   {
@@ -122,5 +116,13 @@ const routes = [
     component: NotFound,
   },
 ];
+
+export const manage = {
+  path: '/manage',
+  meta: {
+    title: '后台管理',
+  },
+  component: UserManage,
+};
 
 export default routes;
