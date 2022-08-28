@@ -19,8 +19,7 @@ const FleetLine = () => import(/* webpackChunkName: "FleetLine" */ '@/views/flee
 
 const FileUp = () => import(/* webpackChunkName: "FileUp" */ '@/views/fileUpload/index.vue');
 
-// const PDFPreview = () =>
-//   import(/* webpackChunkName: "PDFPreview" */ "@/views/pdfPreview/index.vue");
+const PDFPreview = () => import(/* webpackChunkName: "PDFPreview" */ '@/views/pdfPreview/index.vue');
 
 // const I18n = () =>
 //   import(/* webpackChunkName: "I18n" */ "@/views/I18n/index.vue");
@@ -71,13 +70,13 @@ const routes = [
         },
         component: FileUp,
       },
-      //   {
-      //     path: '/pdf',
-      //     meta: {
-      //       title: '文件预览',
-      //     },
-      //     component: PDFPreview,
-      //   },
+      {
+        path: '/pdf',
+        meta: {
+          title: '文件预览',
+        },
+        component: PDFPreview,
+      },
       //   {
       //     path: '/baseEcharts',
       //     meta: {
