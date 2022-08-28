@@ -22,7 +22,7 @@
   transition: all 0.2s ease;
 }
 
-.fade-enter,
+.fade-enter-from,
 .fade-leave-active {
   opacity: 0;
 }

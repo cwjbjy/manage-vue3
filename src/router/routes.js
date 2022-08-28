@@ -1,17 +1,12 @@
-const LoginPage = () =>
-  import(/* webpackChunkName: "Login" */ "@/views/login/index.vue");
+const LoginPage = () => import(/* webpackChunkName: "Login" */ '@/views/login/index.vue');
 
-const NotFound = () =>
-  import(/* webpackChunkName: "notFound" */ "@/views/notFound/index.vue");
+const NotFound = () => import(/* webpackChunkName: "notFound" */ '@/views/notFound/index.vue');
 
-const AppHome = () =>
-  import(/* webpackChunkName: "AppHome" */ "@/layout/AppHome.vue");
+const AppHome = () => import(/* webpackChunkName: "AppHome" */ '@/layout/AppHome.vue');
 
-const HomePage = () =>
-  import(/* webpackChunkName: "HomePage" */ "@/views/homePage/index.vue");
+const HomePage = () => import(/* webpackChunkName: "HomePage" */ '@/views/homePage/index.vue');
 
-// const FleetLine = () =>
-//   import(/* webpackChunkName: "FleetLine" */ "@/views/fleetLine/index.vue");
+const FleetLine = () => import(/* webpackChunkName: "FleetLine" */ '@/views/fleetLine/index.vue');
 
 // const BaseEcharts = () =>
 //   import(/* webpackChunkName: "BaseEcharts" */ "@/views/baseEcharts/index.vue");
@@ -41,35 +36,35 @@ const HomePage = () =>
 
 const routes = [
   {
-    path: "/",
-    redirect: "/firstItem",
+    path: '/',
+    redirect: '/firstItem',
   },
   {
-    path: "/login",
-    name: "LoginPage",
+    path: '/login',
+    name: 'LoginPage',
     component: LoginPage,
   },
   {
-    path: "/home",
+    path: '/home',
     component: AppHome,
-    redirect: "/firstItem",
+    redirect: '/firstItem',
     children: [
       //   ...chartRouter,
       //   ...dragRouter,
       {
-        path: "/firstItem",
+        path: '/firstItem',
         meta: {
-          title: "系统首页",
+          title: '系统首页',
         },
         component: HomePage,
       },
-      //   {
-      //     path: '/fleet',
-      //     meta: {
-      //       title: '模拟航线',
-      //     },
-      //     component: FleetLine,
-      //   },
+      {
+        path: '/fleet',
+        meta: {
+          title: '模拟航线',
+        },
+        component: FleetLine,
+      },
       //   {
       //     path: '/fileUp',
       //     meta: {
@@ -122,8 +117,8 @@ const routes = [
     ],
   },
   {
-    path: "/:pathMatch(.*)*",
-    name: "404",
+    path: '/:pathMatch(.*)*',
+    name: '404',
     component: NotFound,
   },
 ];

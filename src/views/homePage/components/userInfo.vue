@@ -32,18 +32,16 @@ export default {
   setup() {
     const userStore = useUserStore();
     const { imageUrl, user_name } = storeToRefs(userStore);
-    const registerTime = ref("");
+    const registerRef = ref("");
     const role = computed(() =>
       user_name == "一叶扁舟" ? "管理员" : "普通用户"
     );
-    const getRegisterTime = () => {
-      getUser({
-        user_name: userStore.user_name,
+    getUser({
+        user_name:user_name.value
       }).then((res) => {
-        registerTime.value = res.data.Data[0].createTime;
+        registerRef.value = res.data.Data[0].createTime;
       });
-    };
-    getRegisterTime();
+      const registerTime = computed(()=>registerRef.value?.split(' ')[0])
     return { role, registerTime, imageUrl, user_name };
   },
 };

@@ -3,19 +3,19 @@
 </template>
 
 <script>
-import { computed, ref, watch } from "vue";
-import useResize from "@/hooks/resize";
-import { useThemeStore } from "@/store/themeColor";
-import * as base from "@/utils/echartsBase";
+import { computed, onMounted, ref, watch } from 'vue';
+import useResize from '@/hooks/resize';
+import { useThemeStore } from '@/store/themeColor';
+import * as base from '@/utils/echartsBase';
 export default {
-  name: "BarLineModel",
+  name: 'BarLineModel',
   props: {
     model: {
       type: Object,
       default: () => {},
     },
   },
-  setup() {
+  setup(props) {
     const echartRef = ref(null);
     const themeStore = useThemeStore();
     const echartColor = computed(() => themeStore.echartColor);
@@ -29,29 +29,29 @@ export default {
       echartsInstance.clear();
       let option = {
         title: base.title({
-          text: "2019年销售水量和主营业务收入对比",
+          text: '2019年销售水量和主营业务收入对比',
           color: themeStore.echartColor,
         }),
         grid: base.grid(),
-        tooltip: base.tooltip("axis"),
+        tooltip: base.tooltip('axis'),
         legend: base.legend(themeStore.echartColor),
         xAxis: base.xAxis({
           data: [
-            "当年完成水量",
-            "去年同期水量",
-            "滚动目标值水量",
-            "全年目标值水量",
-            "当年完成金额",
-            "去年同期金额",
-            "滚动目标金额",
-            "全年目标值",
+            '当年完成水量',
+            '去年同期水量',
+            '滚动目标值水量',
+            '全年目标值水量',
+            '当年完成金额',
+            '去年同期金额',
+            '滚动目标金额',
+            '全年目标值',
           ],
           color: themeStore.echartColor,
         }),
         yAxis: [
           {
-            type: "value",
-            name: "亿元",
+            type: 'value',
+            name: '亿元',
             splitLine: {
               show: false,
             },
@@ -76,9 +76,9 @@ export default {
             },
           },
           {
-            type: "value",
-            name: "同比",
-            position: "right",
+            type: 'value',
+            name: '同比',
+            position: 'right',
             splitLine: {
               show: false,
             },
@@ -96,7 +96,7 @@ export default {
             },
             axisLabel: {
               show: true,
-              formatter: "{value} %", //右侧Y轴文字显示
+              formatter: '{value} %', //右侧Y轴文字显示
               color: themeStore.echartColor,
             },
             nameTextStyle: {
@@ -106,26 +106,26 @@ export default {
         ],
         series: [
           {
-            name: "销售水量",
-            type: "line",
+            name: '销售水量',
+            type: 'line',
             yAxisIndex: 1, //使用的 y 轴的 index，在单个图表实例中存在多个 y轴的时候有用
             smooth: true, //平滑曲线显示
             showAllSymbol: true, //显示所有图形。
-            symbol: "circle", //标记的图形为实心圆
+            symbol: 'circle', //标记的图形为实心圆
             symbolSize: 10, //标记的大小
             itemStyle: {
               //折线拐点标志的样式
-              color: "#058cff",
+              color: '#058cff',
             },
             lineStyle: {
-              color: "#058cff",
+              color: '#058cff',
             },
 
             //折线图下方的线性渐变
 
             areaStyle: {
               color: {
-                type: "linear",
+                type: 'linear',
                 x: 0,
                 y: 1,
                 x2: 1,
@@ -133,11 +133,11 @@ export default {
                 colorStops: [
                   {
                     offset: 0,
-                    color: "#1e90ff",
+                    color: '#1e90ff',
                   },
                   {
                     offset: 1,
-                    color: "#70a1ff",
+                    color: '#70a1ff',
                   },
                 ],
               },
@@ -145,8 +145,8 @@ export default {
             data: [4.2, 3.8, 4.8, 3.5, 2.9, 2.8, 3, 5],
           },
           {
-            name: "主营业务",
-            type: "bar",
+            name: '主营业务',
+            type: 'bar',
             barWidth: 15,
 
             //柱状图柱形的线性渐变
@@ -154,7 +154,7 @@ export default {
             itemStyle: {
               normal: {
                 color: {
-                  type: "linear",
+                  type: 'linear',
                   x: 0,
                   y: 0,
                   x2: 0,
@@ -162,11 +162,11 @@ export default {
                   colorStops: [
                     {
                       offset: 0, // 0% 处的颜色
-                      color: "#5352ed",
+                      color: '#5352ed',
                     },
                     {
                       offset: 1, // 100% 处的颜色
-                      color: "#3742fa",
+                      color: '#3742fa',
                     },
                   ],
                 },
@@ -182,10 +182,10 @@ export default {
     watch(echartColor, () => {
       prepareDomain();
     });
+    onMounted(() => {
+      prepareDomain(props.model);
+    });
     return { echartRef, echartColor, prepareDomain };
-  },
-  mounted() {
-    this.prepareDomain(this.model);
   },
 };
 </script>
