@@ -1,4 +1,4 @@
-// import chartRouter from './modules/flowChart';
+import chartRouter from './modules/flowChart';
 import dragRouter from './modules/drag';
 
 const LoginPage = () => import(/* webpackChunkName: "Login" */ '@/views/login/index.vue');
@@ -15,8 +15,7 @@ const BaseEcharts = () => import(/* webpackChunkName: "BaseEcharts" */ '@/views/
 
 // const BaseTable = () => import(/* webpackChunkName: "BaseTable" */ '@/views/baseTable/index.vue');
 
-// const Magnifying = () =>
-//   import(/* webpackChunkName: "Magnifying" */ "@/views/magnify/index.vue");
+const Magnifying = () => import(/* webpackChunkName: "Magnifying" */ '@/views/magnify/index.vue');
 
 const FileUp = () => import(/* webpackChunkName: "FileUp" */ '@/views/fileUpload/index.vue');
 
@@ -47,7 +46,7 @@ const routes = [
     component: AppHome,
     redirect: '/firstItem',
     children: [
-      //   ...chartRouter,
+      ...chartRouter,
       ...dragRouter,
       {
         path: '/firstItem',
@@ -98,13 +97,13 @@ const routes = [
         },
         component: I18n,
       },
-      //   {
-      //     path: '/magnifying',
-      //     meta: {
-      //       title: '放大镜',
-      //     },
-      //     component: Magnifying,
-      //   },
+      {
+        path: '/magnifying',
+        meta: {
+          title: '放大镜',
+        },
+        component: Magnifying,
+      },
       //   {
       //     path: '/chatRoom',
       //     meta: {
