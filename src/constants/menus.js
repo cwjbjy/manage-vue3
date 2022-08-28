@@ -29,12 +29,12 @@ export const  menus = [
       key: "baseEcharts",
       icon: require("@/assets/images/menus/echarts.png"),
     },
-    {
-      name: "基础表格",
-      path: "/baseTable",
-      key: "baseTable",
-      icon: require("@/assets/images/menus/baseTable.png"),
-    },
+    // {
+    //   name: "基础表格",
+    //   path: "/baseTable",
+    //   key: "baseTable",
+    //   icon: require("@/assets/images/menus/baseTable.png"),
+    // },
     {
       name: "拖拽组件",
       key: "drag",

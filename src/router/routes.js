@@ -1,3 +1,6 @@
+// import chartRouter from './modules/flowChart';
+import dragRouter from './modules/drag';
+
 const LoginPage = () => import(/* webpackChunkName: "Login" */ '@/views/login/index.vue');
 
 const NotFound = () => import(/* webpackChunkName: "notFound" */ '@/views/notFound/index.vue');
@@ -10,8 +13,7 @@ const FleetLine = () => import(/* webpackChunkName: "FleetLine" */ '@/views/flee
 
 const BaseEcharts = () => import(/* webpackChunkName: "BaseEcharts" */ '@/views/baseEcharts/index.vue');
 
-// const BaseTable = () =>
-//   import(/* webpackChunkName: "BaseTable" */ "@/views/baseTable/index.vue");
+// const BaseTable = () => import(/* webpackChunkName: "BaseTable" */ '@/views/baseTable/index.vue');
 
 // const Magnifying = () =>
 //   import(/* webpackChunkName: "Magnifying" */ "@/views/magnify/index.vue");
@@ -47,7 +49,7 @@ const routes = [
     redirect: '/firstItem',
     children: [
       //   ...chartRouter,
-      //   ...dragRouter,
+      ...dragRouter,
       {
         path: '/firstItem',
         meta: {
@@ -83,13 +85,13 @@ const routes = [
         },
         component: BaseEcharts,
       },
-      //   {
-      //     path: '/baseTable',
-      //     meta: {
-      //       title: '基础表格',
-      //     },
-      //     component: BaseTable,
+      // {
+      //   path: '/baseTable',
+      //   meta: {
+      //     title: '基础表格',
       //   },
+      //   component: BaseTable,
+      // },
       //   {
       //     path: '/I18n',
       //     meta: {

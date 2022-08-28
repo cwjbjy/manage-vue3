@@ -3,36 +3,36 @@
     <el-row>
       <el-col :span="12" class="echarts-box">
         <el-card shadow="hover">
-          <bar-model></bar-model>
+          <BarModel />
         </el-card>
       </el-col>
       <el-col :span="12" class="echarts-box">
         <el-card shadow="hover">
-          <pie-model></pie-model>
-        </el-card>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="12" class="echarts-box">
-        <el-card shadow="hover">
-          <scatter-model></scatter-model>
-        </el-card>
-      </el-col>
-      <el-col :span="12" class="echarts-box">
-        <el-card shadow="hover">
-          <pictorial-bar-model></pictorial-bar-model>
+          <PieModel />
         </el-card>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="12" class="echarts-box">
         <el-card shadow="hover">
-          <line-model></line-model>
+          <ScatterModel />
         </el-card>
       </el-col>
       <el-col :span="12" class="echarts-box">
         <el-card shadow="hover">
-          <cylinder-model></cylinder-model>
+          <PictorialBarModel />
+        </el-card>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="12" class="echarts-box">
+        <el-card shadow="hover">
+          <LineModel />
+        </el-card>
+      </el-col>
+      <el-col :span="12" class="echarts-box">
+        <el-card shadow="hover">
+          <CylinderModel />
         </el-card>
       </el-col>
     </el-row>
