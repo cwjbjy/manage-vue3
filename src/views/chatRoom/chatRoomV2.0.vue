@@ -54,7 +54,7 @@
         </ul>
       </div>
     </el-dialog>
-    <el-dialog title="效果图" v-model="dialogVisible" width="90%" top="2vh" class="chatDialog">
+    <el-dialog title="效果图" center v-model="dialogVisible" width="90%" top="2vh">
       <img src="@/assets/images/chartRoom/chatShowV2.0.png" alt="加载失败" />
     </el-dialog>
   </section>
@@ -70,19 +70,6 @@ import { bus } from '@/constants';
 
 export default {
   name: 'ChatRoom',
-  data() {
-    return {
-      systePrompt: '',
-      msg: '',
-      connectFlag: false,
-      closeFlag: true,
-      mess: null,
-      show: false,
-      dialogVisible: false,
-      explainDialog: false,
-      historyInfos: [],
-    };
-  },
   activated() {
     let that = this;
     document.addEventListener('keydown', that.keyDown);
@@ -159,7 +146,7 @@ export default {
         methods.send();
       }
     };
-    return { ...toRefs(state), ...toRefs(methods), keyDown };
+    return { ...toRefs(state), ...toRefs(methods), keyDown, user_name };
   },
 };
 </script>
