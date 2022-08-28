@@ -1,44 +1,42 @@
 <template>
   <!-- 圆柱 -->
-  <div ref="echarts" class="myChart"></div>
+  <div ref="echartRef" class="myChart"></div>
 </template>
 
 <script>
-import { vuexTheme } from '../../mixin';
-import resize from '../../mixin/resize';
+import { onMounted, ref, watch } from 'vue';
+import { useThemeStore } from '@/store/themeColor';
+import { storeToRefs } from 'pinia';
+import useResize from '@/hooks/resize';
 import * as base from '@/utils/echartsBase';
+
 export default {
   name: 'CylinderModel',
-  watch: {
-    model(newData) {
-      this.prepareDomain(newData);
-    },
-    echartColor() {
-      this.prepareDomain();
-    },
-  },
-  mixins: [vuexTheme, resize],
-  mounted() {
-    this.prepareDomain();
-  },
-  methods: {
-    prepareDomain() {
-      let echartsInstance = window.echarts.init(this.$refs.echarts);
+  setup() {
+    const echartRef = ref(null);
+    const themeStore = useThemeStore();
+    const { echartColor } = storeToRefs(themeStore);
+    useResize(echartRef);
+    const prepareDomain = () => {
+      let echartsInstance = window.echarts.getInstanceByDom(echartRef.value);
+      if (!echartsInstance) {
+        echartsInstance = window.echarts.init(echartRef.value);
+      }
       echartsInstance.clear();
       let option = {
         color: ['#70a1ff', '#70a1ff'],
-        title: base.title({ text: '圆柱图', color: this.echartColor }),
+        title: base.title({ text: '圆柱图', color: echartColor.value }),
         grid: base.grid(),
         tooltip: base.tooltip('item'),
         xAxis: base.xAxis({
           data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-          color: this.echartColor,
+          color: echartColor.value,
         }),
-        yAxis: Object.assign(base.yAxis(this.echartColor), {
+        yAxis: Object.assign(base.yAxis(echartColor.value), {
           splitLine: {
             show: true,
             lineStyle: {
-              color: this.echartColor,
+              color: echartColor.value,
               type: 'dashed',
               opacity: 0.5,
             },
@@ -101,7 +99,14 @@ export default {
         ],
       };
       echartsInstance.setOption(option);
-    },
+    };
+    onMounted(() => {
+      prepareDomain();
+    });
+    watch(echartColor, () => {
+      prepareDomain();
+    });
+    return { echartRef };
   },
 };
 </script>

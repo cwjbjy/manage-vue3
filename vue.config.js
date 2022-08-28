@@ -1,10 +1,13 @@
-const { defineConfig } = require("@vue/cli-service");
+const { defineConfig } = require('@vue/cli-service');
 
 module.exports = defineConfig({
   transpileDependencies: true,
-  productionSourceMap: process.env.NODE_ENV === "production" ? false : true,
+  productionSourceMap: process.env.NODE_ENV === 'production' ? false : true,
   configureWebpack: {
     plugins: [],
+    resolve: {
+      fallback: { path: require.resolve('path-browserify') },
+    },
   },
   css: {
     loaderOptions: {

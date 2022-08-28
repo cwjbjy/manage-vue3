@@ -3,7 +3,8 @@
 </template>
 
 <script>
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, watch, onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
 import useResize from '@/hooks/resize';
 import { useThemeStore } from '@/store/themeColor';
 export default {
@@ -22,7 +23,7 @@ export default {
   setup(props) {
     const echartRef = ref(null);
     const themeStore = useThemeStore();
-    const echartColor = computed(() => themeStore.echartColor);
+    const { echartColor } = storeToRefs(themeStore);
 
     useResize(echartRef);
     const prepareDomain = () => {
@@ -144,7 +145,7 @@ export default {
         legend: {
           orient: 'vertical',
           textStyle: {
-            color: themeStore.echartColor,
+            color: echartColor.value,
           },
           bottom: 0,
           right: 0,
@@ -157,7 +158,7 @@ export default {
           },
           axisLine: {
             lineStyle: {
-              color: themeStore.echartColor,
+              color: echartColor.value,
             },
           },
           splitLine: {

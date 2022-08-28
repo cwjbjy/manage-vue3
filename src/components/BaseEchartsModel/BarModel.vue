@@ -1,39 +1,37 @@
 <template>
-  <div ref="echarts" class="myChart"></div>
+  <div ref="echartRef" class="myChart"></div>
 </template>
 
 <script>
-import { vuexTheme } from '../../mixin';
-import resize from '../../mixin/resize';
+import { onMounted, ref, watch } from 'vue';
+import { useThemeStore } from '@/store/themeColor';
+import { storeToRefs } from 'pinia';
+import useResize from '@/hooks/resize';
 import * as base from '@/utils/echartsBase';
+
 export default {
   name: 'BarModel',
-  watch: {
-    model(newData) {
-      this.prepareDomain(newData);
-    },
-    echartColor() {
-      this.prepareDomain();
-    },
-  },
-  mixins: [vuexTheme, resize],
-  mounted() {
-    this.prepareDomain();
-  },
-  methods: {
-    prepareDomain() {
-      let echartsInstance = window.echarts.init(this.$refs.echarts);
+  setup() {
+    const echartRef = ref(null);
+    const themeStore = useThemeStore();
+    const { echartColor } = storeToRefs(themeStore);
+    useResize(echartRef);
+    const prepareDomain = () => {
+      let echartsInstance = window.echarts.getInstanceByDom(echartRef.value);
+      if (!echartsInstance) {
+        echartsInstance = window.echarts.init(echartRef.value);
+      }
       echartsInstance.clear();
       var option = {
         color: ['#3398DB'],
-        title: base.title({ text: '柱状图', color: this.echartColor }),
+        title: base.title({ text: '柱状图', color: echartColor.value }),
         tooltip: base.tooltip('axis'),
         grid: base.grid(),
         xAxis: base.xAxis({
           data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-          color: this.echartColor,
+          color: echartColor.value,
         }),
-        yAxis: base.yAxis(this.echartColor),
+        yAxis: base.yAxis(echartColor.value),
         series: [
           {
             name: '直接访问',
@@ -44,8 +42,14 @@ export default {
         ],
       };
       echartsInstance.setOption(option);
-      // console.log(echartsInstance.getModel().getComponent("yAxis").axis.scale._extent)
-    },
+    };
+    onMounted(() => {
+      prepareDomain();
+    });
+    watch(echartColor, () => {
+      prepareDomain();
+    });
+    return { echartRef };
   },
 };
 </script>

@@ -1,28 +1,26 @@
 <template>
   <!-- 圆柱 -->
-  <div ref="echarts" class="myChart"></div>
+  <div ref="echartRef" class="myChart"></div>
 </template>
 
 <script>
-import { vuexTheme } from '../../mixin';
-import resize from '../../mixin/resize';
+import { onMounted, ref, watch } from 'vue';
+import { useThemeStore } from '@/store/themeColor';
+import { storeToRefs } from 'pinia';
+import useResize from '@/hooks/resize';
 import * as base from '@/utils/echartsBase';
+
 export default {
-  watch: {
-    model(newData) {
-      this.prepareDomain(newData);
-    },
-    echartColor() {
-      this.prepareDomain();
-    },
-  },
-  mixins: [vuexTheme, resize],
-  mounted() {
-    this.prepareDomain();
-  },
-  methods: {
-    prepareDomain() {
-      let echartsInstance = window.echarts.init(this.$refs.echarts);
+  setup() {
+    const echartRef = ref(null);
+    const themeStore = useThemeStore();
+    const { echartColor } = storeToRefs(themeStore);
+    useResize(echartRef);
+    const prepareDomain = () => {
+      let echartsInstance = window.echarts.getInstanceByDom(echartRef.value);
+      if (!echartsInstance) {
+        echartsInstance = window.echarts.init(echartRef.value);
+      }
       echartsInstance.clear();
       let option = {
         color: [
@@ -39,7 +37,7 @@ export default {
           '#1e90ff',
           '#3742fa',
         ],
-        title: base.title({ text: '饼图', color: this.echartColor }),
+        title: base.title({ text: '饼图', color: echartColor.value }),
         tooltip: {
           trigger: 'item',
           formatter: '{a} <br/>{b} : {c} ({d}%)',
@@ -48,7 +46,7 @@ export default {
           orient: 'vertical',
           left: 'left',
           textStyle: {
-            color: this.echartColor,
+            color: echartColor.value,
           },
           data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎'],
         },
@@ -76,7 +74,14 @@ export default {
         ],
       };
       echartsInstance.setOption(option);
-    },
+    };
+    onMounted(() => {
+      prepareDomain();
+    });
+    watch(echartColor, () => {
+      prepareDomain();
+    });
+    return { echartRef };
   },
 };
 </script>

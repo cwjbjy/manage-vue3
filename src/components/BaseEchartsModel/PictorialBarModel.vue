@@ -1,28 +1,26 @@
 <template>
   <!-- 象形柱图 -->
-  <div ref="echarts" class="myChart"></div>
+  <div ref="echartRef" class="myChart"></div>
 </template>
 
 <script>
-import { vuexTheme } from '../../mixin';
-import resize from '../../mixin/resize';
+import { onMounted, ref, watch } from 'vue';
+import { useThemeStore } from '@/store/themeColor';
+import { storeToRefs } from 'pinia';
+import useResize from '@/hooks/resize';
+
 export default {
   name: 'PictorialBarModel',
-  watch: {
-    model(newData) {
-      this.prepareDomain(newData);
-    },
-    echartColor() {
-      this.prepareDomain();
-    },
-  },
-  mixins: [vuexTheme, resize],
-  mounted() {
-    this.prepareDomain();
-  },
-  methods: {
-    prepareDomain() {
-      let echartsInstance = window.echarts.init(this.$refs.echarts);
+  setup() {
+    const echartRef = ref(null);
+    const themeStore = useThemeStore();
+    const { echartColor } = storeToRefs(themeStore);
+    useResize(echartRef);
+    const prepareDomain = () => {
+      let echartsInstance = window.echarts.getInstanceByDom(echartRef.value);
+      if (!echartsInstance) {
+        echartsInstance = window.echarts.init(echartRef.value);
+      }
       echartsInstance.clear();
       var symbols = [
         'path://M18.2629891,11.7131596 L6.8091608,11.7131596 C1.6685112,11.7131596 0,13.032145 0,18.6237673 L0,34.9928467 C0,38.1719847 4.28388932,38.1719847 4.28388932,34.9928467 L4.65591984,20.0216948 L5.74941883,20.0216948 L5.74941883,61.000787 C5.74941883,65.2508314 11.5891201,65.1268798 11.5891201,61.000787 L11.9611506,37.2137775 L13.1110872,37.2137775 L13.4831177,61.000787 C13.4831177,65.1268798 19.3114787,65.2508314 19.3114787,61.000787 L19.3114787,20.0216948 L20.4162301,20.0216948 L20.7882606,34.9928467 C20.7882606,38.1719847 25.0721499,38.1719847 25.0721499,34.9928467 L25.0721499,18.6237673 C25.0721499,13.032145 23.4038145,11.7131596 18.2629891,11.7131596 M12.5361629,1.11022302e-13 C15.4784742,1.11022302e-13 17.8684539,2.38997966 17.8684539,5.33237894 C17.8684539,8.27469031 15.4784742,10.66467 12.5361629,10.66467 C9.59376358,10.66467 7.20378392,8.27469031 7.20378392,5.33237894 C7.20378392,2.38997966 9.59376358,1.11022302e-13 12.5361629,1.11022302e-13',
@@ -41,7 +39,7 @@ export default {
           textStyle: {
             fontSize: 18,
             fontFamily: 'Arial',
-            color: this.echartColor,
+            color: echartColor.value,
           },
         },
       };
@@ -56,7 +54,7 @@ export default {
         },
         legend: {
           textStyle: {
-            color: this.echartColor,
+            color: echartColor.value,
           },
           orient: 'vertical',
           left: 'left',
@@ -73,21 +71,21 @@ export default {
           axisTick: {
             show: false,
             lineStyle: {
-              color: this.echartColor,
+              color: echartColor.value,
             },
           },
           axisLine: {
             show: false,
             lineStyle: {
-              color: this.echartColor,
+              color: echartColor.value,
             },
           },
           axisLabel: {
             show: false,
-            color: this.echartColor,
+            color: echartColor.value,
           },
           nameTextStyle: {
-            color: this.echartColor,
+            color: echartColor.value,
           },
         },
         yAxis: {
@@ -95,28 +93,28 @@ export default {
           splitLine: {
             show: false,
             lineStyle: {
-              color: this.echartColor,
+              color: echartColor.value,
             },
           },
           axisTick: {
             // 刻度线
             show: false,
             lineStyle: {
-              color: this.echartColor,
+              color: echartColor.value,
             },
           },
           axisLine: {
             // 轴线
             show: false,
             lineStyle: {
-              color: this.echartColor,
+              color: echartColor.value,
             },
           },
           axisLabel: {
             // 轴坐标文字
             show: false,
             lineStyle: {
-              color: this.echartColor,
+              color: echartColor.value,
             },
           },
         },
@@ -256,7 +254,14 @@ export default {
         ],
       };
       echartsInstance.setOption(option);
-    },
+    };
+    onMounted(() => {
+      prepareDomain();
+    });
+    watch(echartColor, () => {
+      prepareDomain();
+    });
+    return { echartRef };
   },
 };
 </script>

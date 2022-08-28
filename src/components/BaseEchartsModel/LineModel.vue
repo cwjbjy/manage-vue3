@@ -1,46 +1,37 @@
 <template>
-  <div ref="echarts" class="myChart"></div>
+  <div ref="echartRef" class="myChart"></div>
 </template>
 
 <script>
-import { vuexTheme } from '../../mixin';
-import resize from '../../mixin/resize';
+import { onMounted, ref, watch } from 'vue';
+import { useThemeStore } from '@/store/themeColor';
+import { storeToRefs } from 'pinia';
+import useResize from '@/hooks/resize';
 import * as base from '@/utils/echartsBase';
 export default {
   name: 'LineModel',
-  props: {
-    model: {
-      type: Object,
-      default: function () {},
-    },
-  },
-  watch: {
-    model: function (model) {
-      this.prepareDomain(model);
-    },
-    echartColor() {
-      this.prepareDomain();
-    },
-  },
-  mixins: [vuexTheme, resize],
-  mounted() {
-    this.prepareDomain(this.model);
-  },
-  methods: {
-    prepareDomain() {
-      var echartsInstance = window.echarts.init(this.$refs.echarts);
+  setup() {
+    const echartRef = ref(null);
+    const themeStore = useThemeStore();
+    const { echartColor } = storeToRefs(themeStore);
+    useResize(echartRef);
+    const prepareDomain = () => {
+      let echartsInstance = window.echarts.getInstanceByDom(echartRef.value);
+      if (!echartsInstance) {
+        echartsInstance = window.echarts.init(echartRef.value);
+      }
       echartsInstance.clear();
       var option = {
         color: ['#eccc68', '#ff7f50', '#7bed9f', '#70a1ff', '#5352ed', '#2ed573', '#1e90ff', '#3742fa'],
-        title: base.title({ text: '折线图', color: this.echartColor }),
+        title: base.title({ text: '折线图', color: echartColor.value }),
         grid: base.grid(),
         xAxis: base.xAxis({
           data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-          color: this.echartColor,
+          color: echartColor.value,
         }),
         tooltip: base.tooltip('axis', 'line'),
-        yAxis: base.yAxis(this.echartColor),
-        legend: base.legend(this.echartColor),
+        yAxis: base.yAxis(echartColor.value),
+        legend: base.legend(echartColor.value),
         series: [
           {
             name: '邮件营销',
@@ -69,7 +60,14 @@ export default {
         ],
       };
       echartsInstance.setOption(option);
-    },
+    };
+    onMounted(() => {
+      prepareDomain();
+    });
+    watch(echartColor, () => {
+      prepareDomain();
+    });
+    return { echartRef };
   },
 };
 </script>

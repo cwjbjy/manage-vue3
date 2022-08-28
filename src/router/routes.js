@@ -8,8 +8,7 @@ const HomePage = () => import(/* webpackChunkName: "HomePage" */ '@/views/homePa
 
 const FleetLine = () => import(/* webpackChunkName: "FleetLine" */ '@/views/fleetLine/index.vue');
 
-// const BaseEcharts = () =>
-//   import(/* webpackChunkName: "BaseEcharts" */ "@/views/baseEcharts/index.vue");
+const BaseEcharts = () => import(/* webpackChunkName: "BaseEcharts" */ '@/views/baseEcharts/index.vue');
 
 // const BaseTable = () =>
 //   import(/* webpackChunkName: "BaseTable" */ "@/views/baseTable/index.vue");
@@ -77,13 +76,13 @@ const routes = [
         },
         component: PDFPreview,
       },
-      //   {
-      //     path: '/baseEcharts',
-      //     meta: {
-      //       title: '基础图表',
-      //     },
-      //     component: BaseEcharts,
-      //   },
+      {
+        path: '/baseEcharts',
+        meta: {
+          title: '基础图表',
+        },
+        component: BaseEcharts,
+      },
       //   {
       //     path: '/baseTable',
       //     meta: {

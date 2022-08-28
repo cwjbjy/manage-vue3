@@ -3,10 +3,12 @@
 </template>
 
 <script>
-import { computed, onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
+import { storeToRefs } from 'pinia';
 import useResize from '@/hooks/resize';
 import { useThemeStore } from '@/store/themeColor';
 import * as base from '@/utils/echartsBase';
+
 export default {
   name: 'BarLineModel',
   props: {
@@ -18,7 +20,7 @@ export default {
   setup(props) {
     const echartRef = ref(null);
     const themeStore = useThemeStore();
-    const echartColor = computed(() => themeStore.echartColor);
+    const { echartColor } = storeToRefs(themeStore);
 
     useResize(echartRef);
     const prepareDomain = () => {
@@ -30,11 +32,11 @@ export default {
       let option = {
         title: base.title({
           text: '2019年销售水量和主营业务收入对比',
-          color: themeStore.echartColor,
+          color: echartColor.value,
         }),
         grid: base.grid(),
         tooltip: base.tooltip('axis'),
-        legend: base.legend(themeStore.echartColor),
+        legend: base.legend(echartColor.value),
         xAxis: base.xAxis({
           data: [
             '当年完成水量',
@@ -46,7 +48,7 @@ export default {
             '滚动目标金额',
             '全年目标值',
           ],
-          color: themeStore.echartColor,
+          color: echartColor.value,
         }),
         yAxis: [
           {
@@ -58,21 +60,21 @@ export default {
             axisLine: {
               show: true, //隐藏X轴轴线
               lineStyle: {
-                color: themeStore.echartColor,
+                color: echartColor.value,
               },
             },
             axisTick: {
               show: true, //隐藏X轴刻度
               lineStyle: {
-                color: themeStore.echartColor,
+                color: echartColor.value,
               },
             },
             axisLabel: {
               show: true,
-              color: themeStore.echartColor,
+              color: echartColor.value,
             },
             nameTextStyle: {
-              color: themeStore.echartColor,
+              color: echartColor.value,
             },
           },
           {
@@ -85,22 +87,22 @@ export default {
             axisLine: {
               show: true, //隐藏X轴轴线
               lineStyle: {
-                color: themeStore.echartColor,
+                color: echartColor.value,
               },
             },
             axisTick: {
               show: true, //隐藏X轴刻度
               lineStyle: {
-                color: themeStore.echartColor,
+                color: echartColor.value,
               },
             },
             axisLabel: {
               show: true,
               formatter: '{value} %', //右侧Y轴文字显示
-              color: themeStore.echartColor,
+              color: echartColor.value,
             },
             nameTextStyle: {
-              color: themeStore.echartColor,
+              color: echartColor.value,
             },
           },
         ],
