@@ -25,8 +25,7 @@ const I18n = () => import(/* webpackChunkName: "I18n" */ '@/views/I18n/index.vue
 
 const ChatRoom = () => import(/* webpackChunkName: "ChatRoom" */ '@/views/chatRoom/chatRoomV2.0.vue');
 
-// const UserManage = () =>
-//   import(/* webpackChunkName: "UserManage" */ "@/views/userManage/index.vue");
+const UserManage = () => import(/* webpackChunkName: "UserManage" */ '@/views/userManage/index.vue');
 
 const routes = [
   {
@@ -107,6 +106,13 @@ const routes = [
           title: '聊天室',
         },
         component: ChatRoom,
+      },
+      {
+        path: '/manage',
+        meta: {
+          title: '后台管理',
+        },
+        component: UserManage,
       },
     ],
   },

@@ -10,6 +10,7 @@
 export default {
   provide: {
     uploadURL: process.env.VUE_APP_UPLOADIMAGE,
+    imgBaseURL: process.env.VUE_APP_IMAGE,
   },
 };
 </script>

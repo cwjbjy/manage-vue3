@@ -123,8 +123,8 @@ export default {
 }
 .el-input__inner {
   @include themify($themes) {
-    background-color: themed('card-background');
-    border: 1px solid themed('card-border');
+    // background-color: themed('card-background');
+    // border: 1px solid themed('card-border');
     color: themed('card-font');
   }
 }
