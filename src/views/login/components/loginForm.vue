@@ -15,21 +15,20 @@
       </el-input>
     </el-form-item>
     <el-form-item label>
-      <el-button type="primary" style="width: 100%" @click="handleLogin"
-        >登录</el-button
-      >
+      <el-button type="primary" style="width: 100%" @click="handleLogin">登录</el-button>
     </el-form-item>
   </el-form>
 </template>
 
 <script>
-import { reactive, ref, getCurrentInstance, toRefs } from "vue";
-import { ElMessage } from "element-plus";
-import { useRouter } from "vue-router";
-import { useUserStore } from "@/store/user";
-import { login } from "@/api/user";
+import { ElMessage } from 'element-plus';
+import { reactive, ref, getCurrentInstance, toRefs } from 'vue';
+import { useRouter } from 'vue-router';
+
+import { login } from '@/api/user';
+import { useUserStore } from '@/store/user';
 export default {
-  name: "LoginForm",
+  name: 'LoginForm',
   setup() {
     const { proxy } = getCurrentInstance();
     const userStore = useUserStore();
@@ -39,12 +38,12 @@ export default {
 
     const state = reactive({
       ruleForm: {
-        name: "一叶扁舟",
-        pass: "123456zx",
+        name: '一叶扁舟',
+        pass: '123456zx',
       },
       rules: {
-        name: [{ required: true, message: "请输入用户名", trigger: "blur" }],
-        pass: [{ required: true, message: "请输入密码", trigger: "blur" }],
+        name: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+        pass: [{ required: true, message: '请输入密码', trigger: 'blur' }],
       },
     });
 
@@ -55,27 +54,27 @@ export default {
             if (moreClick) return;
             moreClick = true;
             let fd = new FormData();
-            fd.append("userName", state.ruleForm.name);
-            fd.append("passWord", state.ruleForm.pass);
+            fd.append('userName', state.ruleForm.name);
+            fd.append('passWord', state.ruleForm.pass);
             login(fd)
               .then((res) => {
-                proxy.$cookies.set("authMenus", res.data.auth);
-                proxy.$cookies.set("token", res.data.value);
+                proxy.$cookies.set('authMenus', res.data.auth);
+                proxy.$cookies.set('token', res.data.value);
                 userStore.updateUserName(state.ruleForm.name);
-                localStorage.setItem("user_name", state.ruleForm.name);
-                router.push("/firstItem");
+                localStorage.setItem('user_name', state.ruleForm.name);
+                router.push('/firstItem');
               })
               .catch((err) => {
-                console.log("err", err);
+                console.log('err', err);
                 if (err.response.status === 400) {
                   ElMessage({
-                    message: "密码错误",
-                    type: "error",
+                    message: '密码错误',
+                    type: 'error',
                   });
                 } else if (err.response.status === 401) {
                   ElMessage({
-                    message: "用户名错误",
-                    type: "error",
+                    message: '用户名错误',
+                    type: 'error',
                   });
                 }
               })
@@ -84,8 +83,8 @@ export default {
               });
           } else {
             ElMessage({
-              message: "请检查输入内容",
-              type: "error",
+              message: '请检查输入内容',
+              type: 'error',
             });
           }
         });

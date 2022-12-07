@@ -22,26 +22,25 @@
 </template>
 
 <script>
-import { computed, ref } from "vue";
-import { storeToRefs } from "pinia";
-import { useUserStore } from "@/store/user";
-import { getUser } from "@/api/user";
+import { storeToRefs } from 'pinia';
+import { computed, ref } from 'vue';
+
+import { getUser } from '@/api/user';
+import { useUserStore } from '@/store/user';
 
 export default {
-  name: "UserInfo",
+  name: 'UserInfo',
   setup() {
     const userStore = useUserStore();
     const { imageUrl, user_name } = storeToRefs(userStore);
-    const registerRef = ref("");
-    const role = computed(() =>
-      user_name == "一叶扁舟" ? "管理员" : "普通用户"
-    );
+    const registerRef = ref('');
+    const role = computed(() => (user_name == '一叶扁舟' ? '管理员' : '普通用户'));
     getUser({
-        user_name:user_name.value
-      }).then((res) => {
-        registerRef.value = res.data.Data[0].createTime;
-      });
-      const registerTime = computed(()=>registerRef.value?.split(' ')[0])
+      user_name: user_name.value,
+    }).then((res) => {
+      registerRef.value = res.data.Data[0].createTime;
+    });
+    const registerTime = computed(() => registerRef.value?.split(' ')[0]);
     return { role, registerTime, imageUrl, user_name };
   },
 };
@@ -57,7 +56,7 @@ export default {
     padding-bottom: 20px;
     margin-bottom: 20px;
     @include themify($themes) {
-      border-bottom: 2px solid themed("card-border");
+      border-bottom: 2px solid themed('card-border');
     }
     .user-img {
       width: 120px;
@@ -83,7 +82,7 @@ export default {
       font-size: 14px;
       line-height: 25px;
       @include themify($themes) {
-        color: themed("card-font");
+        color: themed('card-font');
       }
       @extend %space_between;
     }

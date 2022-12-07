@@ -6,20 +6,8 @@
     <main class="main">
       <article class="form">
         <nav class="tab">
-          <div
-            :class="{ tab_active: flag }"
-            class="tab_title"
-            @click="flag = !flag"
-          >
-            用户登录
-          </div>
-          <div
-            :class="{ tab_active: !flag }"
-            class="tab_title"
-            @click="flag = !flag"
-          >
-            用户注册
-          </div>
+          <div :class="{ tab_active: flag }" class="tab_title" @click="flag = !flag">用户登录</div>
+          <div :class="{ tab_active: !flag }" class="tab_title" @click="flag = !flag">用户注册</div>
         </nav>
         <section v-show="flag">
           <LoginForm ref="loginRef" />
@@ -33,21 +21,20 @@
     <footer class="footer">
       个人小样项目，用于展示自己的技术栈
       <br />
-      <span @click="thirdParty" style="cursor: pointer"
-        >苏ICP备20022574号-2</span
-      >
+      <span @click="thirdParty" style="cursor: pointer">苏ICP备20022574号-2</span>
     </footer>
   </div>
 </template>
 
 <script>
-import { onBeforeUnmount, onMounted, ref, reactive, toRefs } from "vue";
-import LoginForm from "./components/loginForm";
-import LoginOther from "./components/loginOther";
-import LoginRegister from "./components/loginRegister";
+import { onBeforeUnmount, onMounted, ref, reactive, toRefs } from 'vue';
+
+import LoginForm from './components/loginForm';
+import LoginOther from './components/loginOther';
+import LoginRegister from './components/loginRegister';
 
 export default {
-  name: "LoginPage",
+  name: 'LoginPage',
   components: {
     LoginForm,
     LoginOther,
@@ -71,7 +58,7 @@ export default {
 
     const methods = reactive({
       thirdParty: () => {
-        window.open("https://beian.miit.gov.cn");
+        window.open('https://beian.miit.gov.cn');
       },
 
       register: ({ name, pass }) => {
@@ -81,14 +68,14 @@ export default {
     });
 
     onMounted(() => {
-      document.addEventListener("keydown", keyDown);
+      document.addEventListener('keydown', keyDown);
     });
 
     onBeforeUnmount(() => {
-      document.removeEventListener("keydown", keyDown);
+      document.removeEventListener('keydown', keyDown);
     });
 
-    localStorage.removeItem("user_name");
+    localStorage.removeItem('user_name');
 
     return { flag, registerRef, loginRef, ...toRefs(methods) };
   },

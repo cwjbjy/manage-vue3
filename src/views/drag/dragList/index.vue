@@ -57,8 +57,8 @@
 </template>
 
 <script>
-import { reactive, toRefs } from 'vue';
 import { ElMessage } from 'element-plus';
+import { reactive, toRefs } from 'vue';
 import draggable from 'vuedraggable';
 export default {
   name: 'DragList',

@@ -39,10 +39,11 @@
 <script>
 import { computed, onBeforeUnmount, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { useUserStore } from '@/store/user';
-import { useThemeStore } from '@/store/themeColor';
-import { echartColor, bus, baseURL } from '@/constants';
+
 import { getImage } from '@/api/user';
+import { echartColor, bus, baseURL } from '@/constants';
+import { useThemeStore } from '@/store/themeColor';
+import { useUserStore } from '@/store/user';
 export default {
   name: 'AppHeader',
   emits: ['theme'],

@@ -61,12 +61,13 @@
 </template>
 
 <script>
-import { reactive, toRefs } from 'vue';
-import { storeToRefs } from 'pinia';
 import { ElMessage } from 'element-plus';
-import { useUserStore } from '@/store/user';
-import insService from '@/service/websocket';
+import { storeToRefs } from 'pinia';
+import { reactive, toRefs } from 'vue';
+
 import { bus } from '@/constants';
+import insService from '@/service/websocket';
+import { useUserStore } from '@/store/user';
 
 export default {
   name: 'ChatRoom',

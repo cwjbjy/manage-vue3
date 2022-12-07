@@ -1,5 +1,5 @@
-import chartRouter from './modules/flowChart';
 import dragRouter from './modules/drag';
+import chartRouter from './modules/flowChart';
 
 const LoginPage = () => import(/* webpackChunkName: "Login" */ '@/views/login/index.vue');
 

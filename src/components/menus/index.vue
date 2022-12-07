@@ -17,11 +17,13 @@
 </template>
 
 <script>
-import { reactive, toRefs, getCurrentInstance, onMounted, onBeforeUnmount, computed } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useThemeStore } from '@/store/themeColor';
-import { bus, menus, echartColor } from '@/constants';
+import { reactive, toRefs, getCurrentInstance, onMounted, onBeforeUnmount, computed } from 'vue';
+
 import menusItem from './menusItem';
+
+import { bus, menus, echartColor } from '@/constants';
+import { useThemeStore } from '@/store/themeColor';
 
 export default {
   name: 'MenusLayout',

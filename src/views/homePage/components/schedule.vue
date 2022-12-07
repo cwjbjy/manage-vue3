@@ -2,7 +2,8 @@
   <el-card shadow="hover" style="height: 406px; width: 100%">
     <template #header>
       <span>待办事项</span>
-      <el-button style="float: right; padding: 3px 0; color: rgb(45 140 240)" text @click="openDialog('add')">添加
+      <el-button style="float: right; padding: 3px 0; color: rgb(45 140 240)" text @click="openDialog('add')"
+        >添加
       </el-button>
     </template>
     <el-table :show-header="false" :data="todoList" style="width: 100%" ref="table" height="288px">
@@ -46,12 +47,13 @@
 </template>
 
 <script>
-import { nextTick, ref, reactive, toRefs } from "vue";
-import { storeToRefs } from "pinia";
-import { ElMessage, ElMessageBox } from "element-plus";
-import { useTodoList } from "@/store/todoList";
+import { ElMessage, ElMessageBox } from 'element-plus';
+import { storeToRefs } from 'pinia';
+import { nextTick, ref, reactive, toRefs } from 'vue';
+
+import { useTodoList } from '@/store/todoList';
 export default {
-  name: "ScheduleHome",
+  name: 'ScheduleHome',
   setup() {
     const todoListStore = useTodoList();
     const { todoList } = storeToRefs(todoListStore);
@@ -61,30 +63,30 @@ export default {
       dialogFormVisible: false,
       dialogTitle: '',
       schedule: '',
-    })
-    let status = ""; //0增加，1编辑
+    });
+    let status = ''; //0增加，1编辑
     let itemIndex = 0;
     const methods = reactive({
       deleteRow: (index) => {
-        ElMessageBox.confirm("此操作将永久删除该事项, 是否继续?", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
+        ElMessageBox.confirm('此操作将永久删除该事项, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
         })
           .then(() => {
             updateTodo({
-              type: "delete",
+              type: 'delete',
               index,
             });
             ElMessage({
-              type: "success",
-              message: "删除成功!",
+              type: 'success',
+              message: '删除成功!',
             });
           })
           .catch(() => {
             ElMessage({
-              type: "info",
-              message: "已取消删除",
+              type: 'info',
+              message: '已取消删除',
             });
           });
       },
@@ -93,12 +95,12 @@ export default {
         status = val;
         state.dialogFormVisible = true;
         switch (status) {
-          case "add":
-            state.schedule = "";
-            state.dialogTitle = "增加事项";
+          case 'add':
+            state.schedule = '';
+            state.dialogTitle = '增加事项';
             return;
-          case "edit":
-            state.dialogTitle = "编辑事项";
+          case 'edit':
+            state.dialogTitle = '编辑事项';
             state.schedule = row.title;
             return;
           default:
@@ -107,31 +109,31 @@ export default {
       },
       closeDialog: () => {
         switch (status) {
-          case "add":
-            updateTodo({ type: "add", data: state.schedule });
+          case 'add':
+            updateTodo({ type: 'add', data: state.schedule });
             ElMessage({
-              type: "success",
-              message: "增加成功",
+              type: 'success',
+              message: '增加成功',
             });
             state.dialogFormVisible = false;
             return;
-          case "edit":
+          case 'edit':
             updateTodo({
-              type: "edit",
+              type: 'edit',
               index: itemIndex,
               data: state.schedule,
             });
             ElMessage({
-              type: "success",
-              message: "编辑成功",
+              type: 'success',
+              message: '编辑成功',
             });
             state.dialogFormVisible = false;
             return;
           default:
             return;
         }
-      }
-    })
+      },
+    });
     nextTick(() => {
       //解决IE浏览器渲染过慢，表格宽度计算错误
       table.value.doLayout();
@@ -140,7 +142,7 @@ export default {
       todoList,
       table,
       ...toRefs(state),
-      ...toRefs(methods)
+      ...toRefs(methods),
     };
   },
 };
@@ -155,7 +157,7 @@ export default {
   font-size: 14px;
 
   @include themify($themes) {
-    color: themed("card-font");
+    color: themed('card-font');
   }
 }
 

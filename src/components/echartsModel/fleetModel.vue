@@ -3,8 +3,9 @@
 </template>
 
 <script>
-import { onBeforeUnmount, ref, toRefs, watch } from 'vue';
 import { storeToRefs } from 'pinia';
+import { onBeforeUnmount, ref, toRefs, watch } from 'vue';
+
 import { useThemeStore } from '@/store/themeColor';
 
 export default {

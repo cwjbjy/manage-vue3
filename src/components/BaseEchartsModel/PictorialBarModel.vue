@@ -4,10 +4,11 @@
 </template>
 
 <script>
-import { onMounted, ref, watch } from 'vue';
-import { useThemeStore } from '@/store/themeColor';
 import { storeToRefs } from 'pinia';
+import { onMounted, ref, watch } from 'vue';
+
 import useResize from '@/hooks/resize';
+import { useThemeStore } from '@/store/themeColor';
 
 export default {
   name: 'PictorialBarModel',

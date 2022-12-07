@@ -7,11 +7,12 @@
 </template>
 
 <script>
+import { storeToRefs } from 'pinia';
 import { watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+
 import { manage } from '@/router/routes';
 import { useUserStore } from '@/store/user';
-import { storeToRefs } from 'pinia';
 export default {
   provide: {
     uploadURL: process.env.VUE_APP_UPLOADIMAGE,

@@ -1,5 +1,6 @@
-import { messages } from '../../../public/static/i18n';
 import { createI18n } from 'vue-i18n';
+
+import { messages } from '../../../public/static/i18n';
 
 const i18n = createI18n({
   // 默认语言

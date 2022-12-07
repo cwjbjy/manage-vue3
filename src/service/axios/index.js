@@ -1,5 +1,6 @@
-import axios from "axios";
-import app from "@/main";
+import axios from 'axios';
+
+import app from '@/main';
 
 let HttpClient = {};
 
@@ -25,17 +26,17 @@ HttpClient.instance1 = axios.create({});
  */
 HttpClient.instance.interceptors.request.use(
   (config) => {
-    let token = app.$cookies.get("token");
+    let token = app.$cookies.get('token');
     if (!config.headers) {
       config.headers = {};
     }
-    config.headers["Authorization"] = "Bearer " + token;
+    config.headers['Authorization'] = 'Bearer ' + token;
     return config;
   },
   (error) => {
-    console.error("网络错误，请稍后重试");
+    console.error('网络错误，请稍后重试');
     return Promise.reject(error);
-  }
+  },
 );
 
 /**
@@ -48,7 +49,7 @@ HttpClient.instance.interceptors.response.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 export default HttpClient;

@@ -71,8 +71,9 @@
 </template>
 
 <script>
-import { reactive, toRefs, ref } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
+import { reactive, toRefs, ref } from 'vue';
+
 import { user, deleteUser, updateUser } from '@/api/user';
 
 export default {

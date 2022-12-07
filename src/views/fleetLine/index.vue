@@ -6,7 +6,9 @@
 
 <script>
 import { reactive, toRefs } from 'vue';
+
 import FleetModel from '@/components/echartsModel/fleetModel';
+
 import { getAirData } from '@/api/local';
 
 export default {
